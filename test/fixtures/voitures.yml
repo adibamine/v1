@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  annee: MyString
+  marque: MyString
+  modele: MyString
+  kilometrage: MyString
+  boite_vitesse: MyString
+  energie: MyString
+  consommation: 1
+  description: MyText
+  adresse: MyString
+  prix: 1
+  user_id: 
+
+two:
+  annee: MyString
+  marque: MyString
+  modele: MyString
+  kilometrage: MyString
+  boite_vitesse: MyString
+  energie: MyString
+  consommation: 1
+  description: MyText
+  adresse: MyString
+  prix: 1
+  user_id: 

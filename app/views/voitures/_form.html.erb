@@ -1,0 +1,177 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Create your beautiful place
+	</div>
+	<% if @voiture.errors.any? %>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h2 class="panel-title">
+            <%= pluralize(@voiture.errors.count, "error") %>
+            L article n a pas pû etre enregitré
+          </h2>
+          <div class="panel-body">
+            <ul>
+              <% @voiture.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+	<div class="panel-body">
+		<div class="container">
+			
+			<%= form_for @voiture, :html => { multipart: true } do |f| %>
+
+			<div class="row">
+					<div class="form-group">
+						<label>Marque</label>
+						<%= f.select :marque, [["Audi","Audi"], ["BMW","BMW"], ["Nissan","Nissan"], ["Volsvaken","Volsvaken"], ["Tesla","Tesla"]], id: "marque", prompt: "Select...", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group">
+						<label>Modele</label>
+						<%= f.text_field :modele, placeholder: "Modele", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group">
+						<label>Annee</label>
+						<%= f.text_field :annee, placeholder: "Annee", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Portes</label>
+							<%= f.select :nb_portes, [["1",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6",6], ["7+",7]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Boite de vitesse</label>
+							<%= f.select :boite_vitesse, [["Automatique","Automatique"], ["Manuel","Manuel"]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Energie</label>
+							<%= f.select :energie, [["Diesel","Diesel"], ["Essence","Essence"], ["Electrique","Electrique"]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Consommation</label>
+							<%= f.select :consommation, [["1 Litre",1], ["2 Litres",2], ["3 Litres",3], ["4 Litres",4], ["5 Litres",5]], id: "consommation", prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Places</label>
+							<%= f.select :nb_places, [["1",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6+",6]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4 select">
+						<div class="form-group">
+							<label>Kilometrage</label>
+							<%= f.select :kilometrage, [["0-15.000km","0-15.000km"], ["15-30.000km","15-30.000km"], ["30-50.000km","30-50.000km"], ["50-75.000km","50-75.000km"], ["75-100.000km","75-100.000km"], ["100-150.000km","100-150.000km"], ["150-200.000km","150-200.000km"], ["+200.000km","+200.000km"]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group">
+						<label>Description</label>
+						<%= f.text_area :description, rows: 5, placeholder: "Tell about your house", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group">
+						<label>Ville</label>
+						<%= f.text_field :ville, placeholder: "What is your city?", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<%= f.check_box :is_clim %> Climatiseur
+						</div>
+						<div class="form-group">
+							<%= f.check_box :is_direction_assiste %> Direction assistee
+						</div>
+						<div class="form-group">
+							<%= f.check_box :is_regulateur_vitesse %> Regulateur vitesse
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<%= f.check_box :is_gps %> GPS
+						</div>
+						<div class="form-group">
+							<%= f.check_box :is_lecteur_cd %> Lecteur CD
+						</div>
+						<div class="form-group">
+							<%= f.check_box :is_audio_input %> Audio input
+						</div>
+					</div>	
+				</div>	
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Prix</label>
+							<div class="input-group">
+								<div class="input-group-addon">$</div>
+								<%= f.text_field :prix, placeholder: "ex:100dh", class: "form-control" %>
+							</div>	
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">							
+							<span class="btn btn-default btn-file">
+							    <i class="fa fa-cloud-upload fa-lg"></i> Upload Photos 
+							    <%= file_field_tag "images[]", type: :file, multiple: true %>
+							</span>
+						</div>		
+					</div>
+				</div>
+
+				<div id="photos"><%= render 'photos/list' %></div>
+
+				<div class="row">
+					<div class="form-group">
+						<%= f.check_box :active %> Active
+					</div>
+				</div>
+
+				<div class="actions">
+					<%= f.submit "Save", class: "btn btn-primary" %>
+				</div>
+
+			<% end %>
+
+		</div>
+	</div>
+</div>

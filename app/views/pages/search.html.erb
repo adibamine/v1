@@ -1,0 +1,140 @@
+<div id="wrapper">
+
+	<div id="article">
+		<%= @arrVoitures.length > 0 ? " Voitures disponibles à #{@arrVoitures[0].ville}" : "Aucun resultat" %>	
+
+		<hr>
+		
+		<div class="row">
+			<%= search_form_for @search, url: search_path do |f| %>
+
+				<div class="row">
+					<div class="col-md-6">
+						<%= f.text_field :marque_eq, placeholder: "Marque", class: "form-control" %>
+					</div>
+					<div class="col-md-6">
+						<%= f.text_field :modele_eq, placeholder: "Modele", class: "form-control" %>
+					</div>
+				</div>
+
+				<hr>
+				
+				<div class="row">
+					<div class="col-md-3">
+						<%= text_field_tag :start_date, params[:start_date], placeholder: "Start Date", class: "form-control" %>
+					</div>
+					<div class="col-md-3">
+						<%= text_field_tag :end_date, params[:end_date], placeholder: "End Date", class: "form-control" %>
+					</div>
+					<div class="col-md-3">
+						<%= f.text_field :prix_gteq, placeholder: "Min Price", class: "form-control" %>
+					</div>
+					<div class="col-md-3">
+						<%= f.text_field :prix_lteq, placeholder: "Max Price", class: "form-control" %>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Nombre de places</label>
+							<%= f.select :nb_places_eq, [["1",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6+",6]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Nombre de portes</label>
+							<%= f.select :nb_portes_eq, [["1",1], ["2",2], ["3",3], ["4+",4]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Boite de vitesse</label>
+							<%= f.select :boite_vitesse_eq, [["Automatique","Automatique"], ["Manuel","Manuel"]], prompt: "Select...", class: "form-control" %>
+						</div>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_clim_eq]", true %> Climatiseur
+					</div>
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_direction_assiste_eq]", true %> Direction assistee
+					</div>
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_regulateur_vitesse_eq]", true %> Regulateur vitesse
+					</div>
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_gps_eq]", true %> GPS
+					</div>
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_lecteur_cd_eq]", true %> Lecteur CD
+					</div>
+					<div class="col-md-4">
+						<%= check_box_tag "q[is_audio_input_eq]", true %> Audio input
+					</div>
+				</div>
+
+				<br>
+
+				<div class="row">
+					<%= f.submit "Search", class: "btn btn-primary" %>
+				</div>
+
+			<% end %>
+
+			<hr>
+
+			<div class="row">
+				<% @arrVoitures.each do |voiture| %>
+					
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading preview">
+								<%= image_tag voiture.photos[0].image.url(:medium) if voiture.photos.length > 0 %>
+							</div>
+							<div class="panel-body">
+								<%= link_to voiture.marque, voiture %>
+							</div>
+						</div>
+					</div>
+
+				<% end %>
+			</div>
+
+
+		</div>
+
+	</div>
+
+</div>
+
+<script>
+	$(function() {
+		$("#start_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#end_date').datepicker("option", "minDate", selected);
+				$('#end_date').attr('disabled', false);
+			}
+		});
+
+		$("#end_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#start_date').datepicker("option", "maxDate", selected);
+			}
+		});
+	})
+</script>

@@ -1,0 +1,61 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "Home", root_path, class:"navbar-brand"  %>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+
+      <%= form_tag search_path, class: "navbar-form navbar-left", method: :get do %>
+        <div class="form-group">
+          <%= text_field_tag :search, params[:search], placeholder: "Choisissez une ville", class: "form-control", name: "query", id: "query" %>
+        </div>
+      <% end %>
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <% if (!user_signed_in?) %>
+          <li><%= link_to "Login", new_user_session_path %></li>
+          <li><%= link_to "Sign Up", new_user_registration_path %></li>
+        <% else %>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <% if current_user.provider == "facebook" %>
+            <%= image_tag avatar_url(current_user), class: "img-circle avatar-small" %>&nbsp;
+            <% end %>
+            <%= "#{current_user.firstname} #{current_user.lastname}" %> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <li><%= link_to "Vos voitures", voitures_path %></li>
+            <li><%= link_to "Vos reservations", vos_reservations_path %></li>
+            <li><%= link_to "Vos locations", vos_locations_path %></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Mon compte</a></li>
+            <li><%= link_to "Se deconnecter", destroy_user_session_path, method: :delete %></li>
+          </ul>
+        </li>
+        <% end %>
+        <li>
+          <%= link_to conversations_path do %>
+          <i class="fa fa-envelope-o"></i> Messages
+          <% end %>
+        </li>
+        <li>
+          <%= link_to new_voiture_path do %>
+          <i class="fa fa-home fa-lg"></i> Publiez
+          <% end %>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+<script>
+$('#query').typeahead({        
+        local: ['Marrakech','Casa Blanca','Rabat','Fès','Tanger','Agadir','Meknes','Essaouira','Ouarzazate','Oujda','Tétouane','El Jadida','Béni Melal','Chefchaouen','Safo','Salé','Kenitra','Mohammedia','Nador','Ifrane','Larache','Taroudant','Al Hoceïma','Berkane','Laâyoune','Errachidia','Khouribga','Assila','Settat','Tiznit','Taza','Midelt','Bouznika','Saïdia','Merzouga']
+});
+$('.tt-query').css('background-color','#fff');
+</script>
